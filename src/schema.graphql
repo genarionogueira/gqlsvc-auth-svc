@@ -1,3 +1,15 @@
+
+type User {
+  id: ID!
+  email: String!
+  roles: [Role]
+}
+
+type Role {
+  id: ID!
+  name: String!
+}
+
 type Book {
   title: String
   author: String
@@ -12,6 +24,7 @@ type AddBookMutationResponse {
 
 type Query {
   books: [Book],
+  users: [User],
 }
 
 type Mutation {

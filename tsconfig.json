@@ -12,11 +12,13 @@
       "noUnusedLocals": false, //move
       "noUnusedParameters": false, // move
       "outDir": "dist",
-      "removeComments": true,      
+      "removeComments": true,
       "rootDirs": ["src"],
       "sourceMap": true,
       "declaration": true,
-      
+      "emitDecoratorMetadata": true,
+      "experimentalDecorators": true,
+
       "target": "es2020",
       "module": "nodenext",
     },
