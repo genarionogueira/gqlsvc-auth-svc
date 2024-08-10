@@ -10,8 +10,6 @@ import * as config from './config.js';
 import passport from 'passport';
 import session from 'express-session';
 import {googleStrategy} from './auth/google-strategy.js';
-import { User } from './generated/graphql.js';
-import { getUser, UsersDataSource } from './datasources/users-datasource.js';
 
 const app = express();
 // passport
@@ -77,20 +75,22 @@ app.get('/loginerror', (req, res)=>{
 // graphql
 const typeDefs = readFileSync('./src/schema.graphql', {encoding: 'utf-8'})
 
-let apolloServer: ApolloServer;
-async function startServer(){
-  apolloServer = new ApolloServer({
+function createApolloServer(){
+  return new ApolloServer({
     typeDefs, resolvers, context
   });
+}
 
+
+async function startServer( server: ApolloServer ){
   await apolloServer.start();
-
   apolloServer.applyMiddleware({
     app, path:'/graphql'
   });
 }
 
-startServer();
+const apolloServer = createApolloServer();
+startServer(apolloServer);
 
 app.listen(
   {port: config.PORT},
@@ -100,3 +100,6 @@ app.listen(
     console.log(`🚀 Server ready at http://localhost:${config.PORT}${apolloServer.graphqlPath}`);
   }
 );
+
+
+export { createApolloServer };
