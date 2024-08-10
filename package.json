@@ -8,7 +8,8 @@
     "start": "npm run kill-port && node ./dist/src/index.js",
     "codegen": "graphql-codegen --config codegen.ts",
     "clean": "shx rm -rf ./dist",
-    "kill-port": "npx kill-port 4000"
+    "kill-port": "npx kill-port 4000",
+    "proxy": "bash ./src/scripts/flip_proxy.bash"
   },
   "keywords": [],
   "author": "",
