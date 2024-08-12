@@ -36,7 +36,7 @@ app.get('/auth/google/callback', passport.authenticate( 'google',
   }
 ));
 
-passport.serializeUser(function(user: any, cb) {
+passport.serializeUser(function(user, cb) {
   process.nextTick(function() {
     cb(null, user);
   });
@@ -83,8 +83,8 @@ function createApolloServer(){
 
 
 async function startServer( server: ApolloServer ){
-  await apolloServer.start();
-  apolloServer.applyMiddleware({
+  await server.start();
+  await server.applyMiddleware({
     app, path:'/graphql'
   });
 }
@@ -92,14 +92,20 @@ async function startServer( server: ApolloServer ){
 const apolloServer = createApolloServer();
 startServer(apolloServer);
 
-app.listen(
+const authUrl = `http://localhost:${config.PORT}/auth/google`;
+const graphqlUrl = `http://localhost:${config.PORT}/graphql`;
+
+const expresseServer = app.listen(
   {port: config.PORT},
   ()=>{
-    console.log(`🚀 Server ready at http://localhost:${config.PORT}/auth/google`);
-    console.log(`🚀 Server ready at http://localhost:${config.PORT}`);
-    console.log(`🚀 Server ready at http://localhost:${config.PORT}${apolloServer.graphqlPath}`);
+    console.log(`🚀 Auth Server ready at ${authUrl}`);
+    console.log(`🚀 Graphql Server ready at ${graphqlUrl}`);
   }
 );
 
+const urls = {
+  auth: authUrl,
+  graphql: graphqlUrl
+}
 
-export { createApolloServer };
+export { apolloServer, expresseServer, urls};

@@ -5,17 +5,20 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Launch Compiled Program",
             "type": "node",
+            "program": "${workspaceFolder}/src/index.ts",
             "request": "launch",
-            "name": "Launch Program",
-            "skipFiles": [
-                "<node_internals>/**"
-            ],
-            "program": "${workspaceFolder}\\src\\index.ts",
             "preLaunchTask": "npm: build",
             "outFiles": [
-                "${workspaceFolder}/**/*.js"
-            ]
-        }
+                "${workspaceFolder}/dist/**/*.js"
+            ],
+            "skipFiles": [
+                "<node_internals>/**",
+            ],
+            "sourceMaps": true,
+            "cwd": "${workspaceFolder}",
+            "internalConsoleOptions": "openOnSessionStart"
+        },
     ]
 }

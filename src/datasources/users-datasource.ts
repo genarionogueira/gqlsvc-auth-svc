@@ -1,36 +1,19 @@
 import { GraphQLError } from "graphql";
 import { Role, User } from "../generated/graphql.js";
 
-
-
-function checkUserAuthentication() {
-    return function (target: any, propertyKey: string, descriptor: PropertyDescriptor){
-
-        const originalValue = descriptor.value;
-         descriptor.value = function(...args: any[]){
-
-            //validate user
-            if (!this.user || !this.user.roles.includes(adminRole)) {
-                throw new GraphQLError('You need to be logged in to access', {
-                    extensions: {
-                        code: 'UNAUTHENTICATED'
-                    }
-                });
-            }
-
-            //return
-            return originalValue.apply(this,args);
-        }
-    }
-}
-
-
 const adminRole:Role = {
     id: 'admin',
     name: 'administrador'
 }
 
 const UsersDB: Omit<Required<User>, "__typename">[]=[
+    {
+        id: '1',
+        email: 'test.user@gmail.com',
+        roles: [
+            adminRole
+        ]
+    },
     {
         id: '104269147388741962300',
         email: 'genarionogueira2@gmail.com',
@@ -46,8 +29,18 @@ class UsersDataSource {
         this.user = user;
     }
 
-    @checkUserAuthentication()
+    async checkUserAuthentication(){
+        if (!this.user || !this.user.roles.includes(adminRole)) {
+            throw new GraphQLError('You need to be logged in to access', {
+                extensions: {
+                    code: 'UNAUTHENTICATED'
+                }
+            });
+        }
+    }
+
     async getAll(): Promise<User[]>{
+        this.checkUserAuthentication();
         return UsersDB
     }
     async getById(id): Promise<User[]>{

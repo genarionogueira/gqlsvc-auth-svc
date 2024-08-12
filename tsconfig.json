@@ -1,29 +1,20 @@
 {
-    "compilerOptions": {
-
-      "lib": ["es2020"],
-      "esModuleInterop": true,
-      "skipLibCheck": true,
-      "forceConsistentCasingInFileNames": true,
-      "moduleResolution": "nodenext",
-
-      "composite": true,
-      "noFallthroughCasesInSwitch": true,
-      "noUnusedLocals": false, //move
-      "noUnusedParameters": false, // move
-      "outDir": "dist",
-      "removeComments": true,
-      "rootDirs": ["src"],
-      "sourceMap": true,
-      "declaration": true,
-      "emitDecoratorMetadata": true,
-      "experimentalDecorators": true,
-
-      "target": "es2020",
-      "module": "nodenext",
-    },
+  "compilerOptions": {
+    "outDir": "dist",
+    "lib": ["es2020"],
+    "target": "ESNext",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "esModuleInterop": true,
+    "types": ["node"],
+    "skipLibCheck": true,
+    "sourceMap": true
+  },
     "include": ["src/**/*"],
-    "exclude": ["node_modules"],
+    "exclude": [
+      "node_modules",
+      "src/__tests__",
+    ],
     "ts-node":{
       "esm": true,
       "files": true

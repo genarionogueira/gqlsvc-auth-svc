@@ -16,14 +16,18 @@ const context = async ({req, res}) => {
 
     const jwtToken = req.headers.authorization || '';
     const jwtPayload: JwtPayload = await verifyToken(jwtToken);
-    const user: User = getUser(jwtPayload.id);
 
-    if(!user) throw new GraphQLError('User is not authenticated',{
+    const notAuthenticated = new GraphQLError('User is not authenticated',{
         extensions: {
             code: "UNAUTHENTICATED",
             http: {status: 401}
         }
     });
+
+    if(!jwtPayload) throw notAuthenticated;
+
+    const user: User = getUser(jwtPayload.id);
+    if(!user) throw notAuthenticated;
 
     return {
         user,

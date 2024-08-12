@@ -1,0 +1,10 @@
+query Query {
+  users {
+    email
+    id
+    roles {
+      id
+      name
+    }
+  }
+}
